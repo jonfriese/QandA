@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+before_filter :authenticate_user!
 
   before_filter :load_question
   # GET /answers
@@ -36,8 +37,8 @@ class AnswersController < ApplicationController
     @answer.question_id = @question.id
 
     respond_to do |format|
-      if @answer.save
-        format.html { redirect_to [@question, @answer], notice: 'Answer was successfully created.' }
+      if @answer.update_attributes(params[:question])
+        format.html { redirect_to [@question, @answer], notice: 'Answer was successfully created!!!' }
         format.json { render json: @answer, status: :created, location: @answer }
       else
         format.html { render action: "new" }
@@ -53,7 +54,7 @@ class AnswersController < ApplicationController
 
     respond_to do |format|
       if @answer.update_attributes(params[:answer])
-        format.html { redirect_to [@question, @answer], notice: 'Answer was successfully updated.' }
+        format.html { redirect_to question_answers_path, notice: 'Answer was successfully updated!!!' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -67,6 +68,10 @@ class AnswersController < ApplicationController
   def destroy
     @answer = @question.answers.find(params[:id])
     @answer.destroy
+
+    respond_to do |format|
+      format.html { redirect_to question_answers_url }
+    end
   end
 
   private

@@ -1,18 +1,21 @@
-<h1>Listing questions</h1>
+<h1>Questions</h1>
+
+<%= link_to 'New Question', new_question_path %>
 
 <table>
   <tr>
     <th>Question</th>
-    <th></th>
-    <th></th>
+    <th>Author</th>
   </tr>
 
+
 <% @questions.each do |question| %>
-  <tr>
+  </tr>
     <td><%= question.name %></td>
+    <td><%= question.author.email if question.author %></td>
     <td><%= link_to 'Answer', question_answers_path(question) %></td>
     <td><%= link_to 'Edit', edit_question_path(question) %></td>
-    <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Destroy Question', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 
@@ -20,4 +23,3 @@
 
 <br />
 
-<%= link_to 'New Question', new_question_path %>
